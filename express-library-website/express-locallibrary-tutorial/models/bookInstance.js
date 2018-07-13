@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var moment = require('moment');
 var Schema = mongoose.Schema;
 
 var BookInstanceSchema = new Schema (
@@ -16,6 +17,14 @@ BookInstanceSchema
 .get(function(){
   return '/catalog/bookInstance/' + this._id;
 });
+
+// Virtual for due date formatted using moment
+BookInstanceSchema
+.virtual('due_back_formatted')
+.get(function(){
+  return moment(this.due_back).format('MMMM Do, YYYY');
+});
+
 
 // Export model
 module.exports = mongoose.model('BookInstance', BookInstanceSchema);
